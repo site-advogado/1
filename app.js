@@ -3,7 +3,9 @@
 // IMPORTANTE: NÃO declare URL_API aqui. Ela vem de tema.js.
 // Inclua tema.js ANTES deste arquivo em index.html.
 // ============================================================
-
+const URL_API    = 'https://api-advogada.siterefrigeracaoeliezer.workers.dev/api/v1';
+const URL_SESSAO = 'https://api-advogada.siterefrigeracaoeliezer.workers.dev/api/verificar-sessao';
+const URL_BASE   = 'https://api-advogada.siterefrigeracaoeliezer.workers.dev';
 // ── Estado ────────────────────────────────────────────────
 let _primeiroAcesso    = false;
 let _contadorInterval  = null;
