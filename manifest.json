@@ -1,0 +1,26 @@
+{
+  "name": "Portal Jurídico",
+  "short_name": "Portal - Nome",
+  "description": "Acompanhe seu processo jurídico de forma segura e privada.",
+  "lang": "pt-BR",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F3",
+  "theme_color": "#C5A059",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHtE2js3Aj9ZLxGzW-qg0iuRkcQvHrLMREwdxYyxwFQZ9IoEp_lYYjezzImcmSIoIPT0GDbAKn0HgZY757h6ob0P-RArslGJ8ca8R395S1oruz8a0R_BXc9OMWQwpqodGTFwq3rNdhshjmU9GgIvaBNAr7JmvgrH6GpbbxqgPXHy_42z9P43RM4frkdlc/w494-h494/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHtE2js3Aj9ZLxGzW-qg0iuRkcQvHrLMREwdxYyxwFQZ9IoEp_lYYjezzImcmSIoIPT0GDbAKn0HgZY757h6ob0P-RArslGJ8ca8R395S1oruz8a0R_BXc9OMWQwpqodGTFwq3rNdhshjmU9GgIvaBNAr7JmvgrH6GpbbxqgPXHy_42z9P43RM4frkdlc/w494-h494/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

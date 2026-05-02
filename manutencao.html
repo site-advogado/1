@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-z63rLvRdQBB5a+O4mnpoH+bEKWeVDq7J7oX0pavFPkY=' 'sha256-BZ6h8rYfI3HadOfJ+3gXyLrCFVPTUXZZistD5GUzkgE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' https://blogger.googleusercontent.com data:; connect-src https://api-advogada.siterefrigeracaoeliezer.workers.dev; frame-ancestors 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests;">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Portal Jurídico">
+  <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHtE2js3Aj9ZLxGzW-qg0iuRkcQvHrLMREwdxYyxwFQZ9IoEp_lYYjezzImcmSIoIPT0GDbAKn0HgZY757h6ob0P-RArslGJ8ca8R395S1oruz8a0R_BXc9OMWQwpqodGTFwq3rNdhshjmU9GgIvaBNAr7JmvgrH6GpbbxqgPXHy_42z9P43RM4frkdlc/w494-h494/logo.png">
+  <title>Acesso Administrativo | Gestão Processual</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8sq8OlCkdoqcuQ1KGpfL7O+L6fGCSeT9w+FMSwn1SRzwxD" crossorigin="anonymous">
+
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --navy:        #0A1628;
+      --navyMid:     #111E35;
+      --navyLight:   #1C2D4A;
+      --steel:       #2E6DA4;
+      --steelLight:  #4A8DC4;
+      --steelDim:    #1A4A72;
+      --iceWhite:    #E8EDF4;
+      --silverFog:   #9AADC4;
+      --gunmetal:    #2C3344;
+      --bg:          #F0F4F8;
+      --surface:     #FFFFFF;
+      --text-primary:   #0A1628;
+      --text-secondary: rgba(10,22,40,0.60);
+      --text-disabled:  rgba(10,22,40,0.30);
+      --border-color:   rgba(46,109,164,0.12);
+      --border-hover:   rgba(46,109,164,0.25);
+      --error:       #C04A3A;
+      --overlay:     rgba(10,22,40,0.50);
+      --font-serif:  'Cormorant Garamond', Georgia, serif;
+      --font-sans:   'Inter', sans-serif;
+      --radius-card: 16px;
+      --radius-btn:  12px;
+      --radius-sm:   8px;
+      --radius-badge: 4px;
+    }
+    html.dark {
+      --bg:          #0A1628;
+      --surface:     #111E35;
+      --text-primary:   #E8EDF4;
+      --text-secondary: rgba(232,237,244,0.60);
+      --text-disabled:  rgba(232,237,244,0.30);
+      --border-color:   rgba(46,109,164,0.20);
+      --border-hover:   rgba(46,109,164,0.35);
+      --error:       #E07060;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── Body ── */
+    body {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 300;
+      line-height: 1.625;
+      color: var(--text-primary);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(46,109,164,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,109,164,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+      -webkit-user-select: none;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    html.dark body {
+      background-image:
+        linear-gradient(rgba(46,109,164,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,109,164,0.08) 1px, transparent 1px);
+    }
+    input, textarea, select { user-select: text !important; -webkit-user-select: text !important; }
+    img { pointer-events: none !important; -webkit-user-drag: none !important; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(46,109,164,0.25); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(46,109,164,0.45); }
+
+    /* ── Global Loader ── */
+    #globalLoader {
+      position: fixed; inset: 0; z-index: 200;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(10,22,40,0.30);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    #globalLoader.show { display: flex; }
+    .loader-box {
+      background: var(--surface);
+      border: 1px solid rgba(46,109,164,0.20);
+      border-radius: var(--radius-card);
+      padding: 32px 40px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    }
+    .loader {
+      width: 38px; height: 38px;
+      border: 3px solid rgba(46,109,164,0.15);
+      border-top: 3px solid #2E6DA4;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    .loader-txt {
+      font-family: var(--font-sans);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.20em; text-transform: uppercase;
+      color: var(--steel);
+    }
+
+    /* ── Header ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px;
+      background: rgba(240,244,248,0.88);
+      border-bottom: 1px solid rgba(46,109,164,0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    html.dark header {
+      background: rgba(10,22,40,0.92);
+      border-bottom-color: rgba(46,109,164,0.25);
+    }
+    .hdr-brand { display: flex; align-items: center; gap: 8px; opacity: 0.80; }
+    .logo-diamond {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(46,109,164,0.50);
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-diamond-inner { width: 6px; height: 6px; background: #2E6DA4; transform: rotate(-45deg); }
+    .hdr-brand-name {
+      font-family: var(--font-sans);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(46,109,164,0.70); display: none;
+    }
+    @media (min-width: 640px) { .hdr-brand-name { display: block; } }
+    .hdr-actions { display: flex; align-items: center; gap: 8px; }
+    .back-link {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(46,109,164,0.60); text-decoration: none;
+      border: 1px solid rgba(46,109,164,0.15);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    html.dark .back-link { color: rgba(74,141,196,0.60); border-color: rgba(74,141,196,0.15); }
+    .back-link:hover { color: var(--steel); border-color: rgba(46,109,164,0.35); }
+    .btn-theme {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: 1px solid rgba(46,109,164,0.20);
+      border-radius: var(--radius-sm);
+      color: var(--steel); cursor: pointer; font-size: 13px;
+      transition: background 0.2s;
+    }
+    html.dark .btn-theme { color: #4A8DC4; }
+    .btn-theme:hover { background: rgba(46,109,164,0.10); }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 28rem;
+      margin: 0 auto;
+      padding: 96px 16px 64px;
+    }
+
+    /* ── Page header / emblem ── */
+    .page-emblem {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .emblem-rule {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px; opacity: 0.35;
+    }
+    .emblem-rule::before, .emblem-rule::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, #2E6DA4, transparent);
+    }
+    .emblem-rule-dot { width: 6px; height: 6px; background: #2E6DA4; transform: rotate(45deg); flex-shrink: 0; }
+
+    .emblem-icon-wrap {
+      position: relative; display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 64px; height: 64px; margin-bottom: 16px;
+    }
+    .emblem-icon-wrap::before {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid rgba(46,109,164,0.25); border-radius: 12px; transform: rotate(6deg);
+    }
+    .emblem-icon-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid rgba(46,109,164,0.15); border-radius: 12px; transform: rotate(-6deg);
+    }
+    .emblem-icon-bg {
+      position: relative; z-index: 1;
+      width: 100%; height: 100%; border-radius: 12px;
+      background: rgba(46,109,164,0.08);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .emblem-icon-bg i { color: var(--steel); font-size: 24px; }
+    html.dark .emblem-icon-bg i { color: #4A8DC4; }
+
+    .page-emblem h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-weight: 700; text-transform: uppercase;
+      line-height: 1.15; letter-spacing: 0.02em;
+      color: var(--text-primary); margin-bottom: 8px;
+    }
+    .admin-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(46,109,164,0.08);
+      border: 1px solid rgba(46,109,164,0.22);
+      border-radius: var(--radius-badge);
+      padding: 4px 14px;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: #2E6DA4; margin-bottom: 8px;
+    }
+    html.dark .admin-badge {
+      background: rgba(46,109,164,0.14);
+      border-color: rgba(74,141,196,0.28); color: #4A8DC4;
+    }
+    .page-emblem p {
+      font-size: 0.875rem; font-weight: 300;
+      color: var(--text-primary); opacity: 0.50;
+      letter-spacing: 0.03em;
+    }
+    .emblem-rule-bottom {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 20px; opacity: 0.25;
+    }
+    .emblem-rule-bottom::before, .emblem-rule-bottom::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, #2E6DA4, transparent);
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-card);
+      box-shadow: 0 2px 20px rgba(10,22,40,0.08);
+      overflow: hidden; position: relative;
+      transition: box-shadow 0.3s ease;
+      margin-bottom: 0;
+    }
+    html.dark .card { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+    .card-accent-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #1A4A72, #2E6DA4, #1A4A72);
+    }
+    .corner-tl {
+      position: absolute; top: 16px; left: 16px;
+      width: 22px; height: 22px;
+      border-top: 2px solid rgba(46,109,164,0.38);
+      border-left: 2px solid rgba(46,109,164,0.38);
+      pointer-events: none;
+    }
+    .corner-br {
+      position: absolute; bottom: 16px; right: 16px;
+      width: 22px; height: 22px;
+      border-bottom: 2px solid rgba(46,109,164,0.38);
+      border-right: 2px solid rgba(46,109,164,0.38);
+      pointer-events: none;
+    }
+    .card-inner { padding: 28px; }
+    @media (min-width: 640px) { .card-inner { padding: 32px; } }
+
+    /* ── Section label ── */
+    .sec-label {
+      font-family: var(--font-sans);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--steel); opacity: 0.75;
+      display: block; margin-bottom: 4px;
+    }
+    html.dark .sec-label { color: #4A8DC4; }
+    .sec-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 6px;
+    }
+    .sec-sub {
+      font-size: 0.75rem; font-weight: 300;
+      color: var(--text-primary); opacity: 0.40;
+      letter-spacing: 0.04em; margin-bottom: 20px;
+    }
+    .card-divider {
+      width: 40px; height: 2px;
+      background: rgba(46,109,164,0.40); margin-bottom: 24px;
+    }
+
+    /* ── Info banner ── */
+    .info-banner {
+      background: rgba(46,109,164,0.06);
+      border: 1px solid rgba(46,109,164,0.18);
+      border-left: 3px solid rgba(46,109,164,0.55);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    html.dark .info-banner {
+      background: rgba(46,109,164,0.10);
+      border-color: rgba(74,141,196,0.20);
+      border-left-color: rgba(74,141,196,0.55);
+    }
+    .info-banner > i { color: var(--steel); font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+    html.dark .info-banner > i { color: #4A8DC4; }
+    .info-banner p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .info-banner strong { font-weight: 600; color: var(--steel); }
+    html.dark .info-banner strong { color: #4A8DC4; }
+
+    /* ── Info box ── */
+    .info-box {
+      background: rgba(46,109,164,0.04);
+      border: 1px solid rgba(46,109,164,0.12);
+      border-radius: var(--radius-sm);
+      padding: 16px; margin-bottom: 24px;
+    }
+    html.dark .info-box {
+      background: rgba(46,109,164,0.08);
+      border-color: rgba(74,141,196,0.15);
+    }
+    .info-box .sec-label { margin-bottom: 10px; }
+    .info-row {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(46,109,164,0.08);
+    }
+    .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+    html.dark .info-row { border-bottom-color: rgba(74,141,196,0.10); }
+    .info-row i { color: var(--steel); font-size: 12px; margin-top: 2px; width: 14px; flex-shrink: 0; }
+    html.dark .info-row i { color: #4A8DC4; }
+    .info-row p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .info-row strong { font-weight: 600; color: var(--text-primary); opacity: 0.90; }
+    .info-row em { color: rgba(46,109,164,0.70); font-style: italic; }
+    html.dark .info-row em { color: rgba(74,141,196,0.70); }
+
+    /* ── Form fields ── */
+    .field { margin-bottom: 20px; }
+    .field > label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--steel); opacity: 0.75; margin-bottom: 8px;
+    }
+    html.dark .field > label { color: #4A8DC4; }
+    .fi-wrap { position: relative; }
+    .fi-wrap i.ic {
+      position: absolute; left: 0; top: 50%;
+      transform: translateY(-50%);
+      color: rgba(46,109,164,0.55); font-size: 13px; pointer-events: none;
+    }
+    html.dark .fi-wrap i.ic { color: rgba(74,141,196,0.60); }
+    .fi-wrap input {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 2px solid rgba(46,109,164,0.25);
+      padding: 10px 36px 10px 28px;
+      font-family: var(--font-sans); font-size: 15px;
+      color: var(--text-primary); outline: none;
+      transition: border-color 0.25s ease;
+    }
+    .fi-wrap input::placeholder { color: rgba(10,22,40,0.35); }
+    html.dark .fi-wrap input::placeholder { color: rgba(232,237,244,0.35); }
+    .fi-wrap input:focus { border-bottom-color: #2E6DA4; }
+    html.dark .fi-wrap input:focus { border-bottom-color: #4A8DC4; }
+    .toggle-btn {
+      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(46,109,164,0.45); font-size: 13px; padding: 4px;
+      transition: color 0.2s;
+    }
+    .toggle-btn:hover { color: #2E6DA4; }
+    html.dark .toggle-btn { color: rgba(74,141,196,0.45); }
+    html.dark .toggle-btn:hover { color: #4A8DC4; }
+
+    /* ── Strength meter ── */
+    .str-bg {
+      height: 3px; background: rgba(46,109,164,0.12);
+      border-radius: 2px; overflow: hidden; margin-top: 8px;
+    }
+    .str-fill { height: 100%; border-radius: 2px; width: 0; transition: width .35s, background .35s; }
+    .str-lbl { font-size: 11px; font-weight: 300; margin-top: 4px; color: rgba(46,109,164,0.50); }
+
+    /* ── Divider with label ── */
+    .divider-label {
+      display: flex; align-items: center; gap: 12px;
+      margin: 8px 0 16px;
+    }
+    .divider-label::before, .divider-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(46,109,164,0.18);
+    }
+    html.dark .divider-label::before,
+    html.dark .divider-label::after { background: rgba(74,141,196,0.18); }
+    .divider-label span {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(46,109,164,0.50); white-space: nowrap; padding: 0 4px;
+    }
+
+    /* ── Msg boxes ── */
+    .msg-box {
+      display: none; align-items: center; gap: 10px;
+      border-radius: var(--radius-sm);
+      padding: 11px 14px; font-size: 12.5px; margin-bottom: 12px;
+    }
+    .msg-box.show { display: flex; }
+    .msg-box.error {
+      background: rgba(192,74,58,0.08); color: #C04A3A;
+      border: 1px solid rgba(192,74,58,0.22);
+    }
+    html.dark .msg-box.error {
+      background: rgba(192,74,58,0.12); color: #E07060;
+      border-color: rgba(192,74,58,0.28);
+    }
+    .msg-box.success {
+      background: rgba(46,109,164,0.08); color: #2E6DA4;
+      border: 1px solid rgba(46,109,164,0.22);
+    }
+    html.dark .msg-box.success {
+      background: rgba(74,141,196,0.12); color: #4A8DC4;
+      border-color: rgba(74,141,196,0.28);
+    }
+    .msg-box i { flex-shrink: 0; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: block; width: 100%; padding: 16px;
+      background: linear-gradient(135deg, #2E6DA4 0%, #1A4A72 100%);
+      color: #FFFFFF;
+      font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      border: none; border-radius: var(--radius-btn);
+      cursor: pointer; position: relative; overflow: hidden;
+      box-shadow: 0 4px 15px rgba(46,109,164,0.20);
+      transition: all 0.25s ease; margin-top: 4px;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; top: 0; bottom: 0; left: -100%;
+      width: 100%; background: rgba(255,255,255,0.12); transition: left 0.5s ease;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(46,109,164,0.35); }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .btn-outline {
+      display: block; width: 100%;
+      background: transparent;
+      border: 1px solid rgba(46,109,164,0.35); color: #2E6DA4;
+      padding: 14px 16px; border-radius: var(--radius-btn);
+      font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.25s ease;
+    }
+    .btn-outline:hover {
+      background: rgba(46,109,164,0.08);
+      border-color: rgba(46,109,164,0.55); transform: translateY(-1px);
+    }
+    html.dark .btn-outline { color: #4A8DC4; border-color: rgba(74,141,196,0.35); }
+
+    /* ── Views ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── Link central (único neste arquivo) ── */
+    .link-central {
+      background: rgba(46,109,164,0.04);
+      border: 1px solid rgba(46,109,164,0.12);
+      border-radius: var(--radius-sm);
+      padding: 16px; margin-top: 24px;
+    }
+    html.dark .link-central {
+      background: rgba(46,109,164,0.08);
+      border-color: rgba(74,141,196,0.15);
+    }
+    .link-url {
+      font-size: 12px; color: var(--steel);
+      word-break: break-all; margin: 10px 0;
+      padding: 10px 12px;
+      background: rgba(46,109,164,0.06);
+      border: 1px solid rgba(46,109,164,0.15);
+      border-radius: 6px;
+      user-select: text; -webkit-user-select: text;
+    }
+    html.dark .link-url { color: #4A8DC4; }
+    .link-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .btn-link {
+      flex: 1; min-width: 110px; padding: 10px;
+      background: transparent;
+      border: 1px solid rgba(46,109,164,0.25);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans); font-size: 10px;
+      font-weight: 600; letter-spacing: 0.12em;
+      color: var(--steel); text-transform: uppercase;
+      cursor: pointer; display: flex; align-items: center;
+      justify-content: center; gap: 6px;
+      transition: all 0.25s;
+    }
+    html.dark .btn-link { color: #4A8DC4; border-color: rgba(74,141,196,0.25); }
+    .btn-link:hover {
+      background: rgba(46,109,164,0.08);
+      border-color: rgba(46,109,164,0.45);
+    }
+    .btn-link.copiado { border-color: #2E6DA4; color: #2E6DA4; }
+
+    /* WhatsApp preview */
+    .wapp-preview {
+      background: rgba(46,109,164,0.04);
+      border: 1px solid rgba(46,109,164,0.12);
+      border-radius: 6px; padding: 12px 14px;
+      font-size: 12px; color: var(--text-secondary);
+      white-space: pre-wrap; line-height: 1.65;
+      margin-top: 10px; max-height: 150px; overflow-y: auto;
+      display: none; user-select: text; -webkit-user-select: text;
+    }
+    .btn-preview {
+      padding: 8px 14px; background: none;
+      border: 1px dashed rgba(46,109,164,0.30);
+      border-radius: 6px; font-size: 10px;
+      letter-spacing: 0.12em; color: var(--steel);
+      cursor: pointer; margin-top: 8px;
+      display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-preview:hover { border-color: rgba(46,109,164,0.50); }
+
+    /* ── Success view ── */
+    .success-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(46,109,164,0.08);
+      border: 1px solid rgba(46,109,164,0.25);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    html.dark .success-icon {
+      background: rgba(46,109,164,0.15);
+      border-color: rgba(74,141,196,0.30);
+    }
+    .success-icon i { color: var(--steel); font-size: 22px; }
+    html.dark .success-icon i { color: #4A8DC4; }
+
+    /* ── Animations ── */
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  </style>
+</head>
+<body>
+
+<!-- ── Global Loader ── -->
+<div id="globalLoader">
+  <div class="loader-box">
+    <div class="loader"></div>
+    <span class="loader-txt">Verificando...</span>
+  </div>
+</div>
+
+<!-- ── Header ── -->
+<header>
+  <div class="hdr-brand">
+    <div class="logo-diamond"><div class="logo-diamond-inner"></div></div>
+    <span class="hdr-brand-name">Gestão Processual</span>
+  </div>
+  <div class="hdr-actions">
+    <a href="index.html" class="back-link">
+      <i class="fas fa-arrow-left" style="font-size:9px;"></i>
+      <span style="display:none;" class="sm-show">Início</span>
+    </a>
+    <button class="btn-theme" onclick="toggleDarkMode()">
+      <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+  </div>
+</header>
+
+<style>@media(min-width:640px){.sm-show{display:inline!important;}}</style>
+
+<main class="fade-up">
+
+  <!-- ── Page emblem ── -->
+  <section class="page-emblem">
+    <div class="emblem-rule"><div class="emblem-rule-dot"></div></div>
+
+    <div class="emblem-icon-wrap">
+      <div class="emblem-icon-bg">
+        <i class="fas fa-scale-balanced"></i>
+      </div>
+    </div>
+
+    <h1>Painel Administrativo</h1>
+
+    <div style="display:flex;justify-content:center;margin-bottom:10px;">
+      <span class="admin-badge">
+        <i class="fas fa-shield-halved" style="font-size:9px;"></i>
+        Acesso Restrito
+      </span>
+    </div>
+
+    <p id="headerSub">Acesso restrito ao titular do escritório</p>
+
+    <div class="emblem-rule-bottom">
+      <i class="fas fa-gavel" style="color:#2E6DA4;font-size:12px;"></i>
+    </div>
+  </section>
+
+  <!-- ════ VIEW: Primeiro Acesso ════ -->
+  <div class="view active card" id="viewSetup">
+    <div class="card-accent-bar"></div>
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="card-inner">
+
+      <p class="sec-label">Configuração inicial</p>
+      <h2 class="sec-title">Primeiro Acesso</h2>
+      <div class="card-divider"></div>
+
+      <div class="info-banner">
+        <i class="fas fa-circle-info"></i>
+        <div>
+          <p style="font-weight:600;color:var(--steel);margin-bottom:4px;">Nenhuma configuração encontrada</p>
+          <p>Configure agora seu e-mail, senha e a <em>palavra-chave de acesso</em> antes de começar a utilizar o sistema.</p>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <p class="sec-label">O que cada campo faz</p>
+        <div class="info-row">
+          <i class="fas fa-at"></i>
+          <p><strong>E-mail administrativo</strong> — seu usuário de login no painel.</p>
+        </div>
+        <div class="info-row">
+          <i class="fas fa-lock"></i>
+          <p><strong>Senha de acesso</strong> — armazenada como hash. Nem o servidor conhece em texto puro.</p>
+        </div>
+        <div class="info-row">
+          <i class="fas fa-key"></i>
+          <p><strong>Palavra-chave secreta</strong> — digitada no campo de busca da página inicial, abre este painel silenciosamente. Ex: <em>escritoriosilva2026</em></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><i class="fas fa-envelope" style="margin-right:5px;font-size:9px;"></i>E-mail Administrativo</label>
+        <div class="fi-wrap">
+          <i class="fas fa-at ic"></i>
+          <input type="email" id="setupEmail" autocomplete="email" placeholder="seu@email.com">
+        </div>
+      </div>
+
+      <div class="field">
+        <label><i class="fas fa-lock" style="margin-right:5px;font-size:9px;"></i>Senha de Acesso</label>
+        <div class="fi-wrap">
+          <i class="fas fa-lock ic"></i>
+          <input type="password" id="setupSenha" autocomplete="new-password" placeholder="Mínimo 8 caracteres" oninput="avaliarForca(this.value)">
+          <button class="toggle-btn" type="button" onclick="toggleVer('setupSenha',this)"><i class="fas fa-eye"></i></button>
+        </div>
+        <div class="str-bg"><div class="str-fill" id="strFill"></div></div>
+        <div class="str-lbl" id="strLabel"></div>
+      </div>
+
+      <div class="field">
+        <label><i class="fas fa-lock" style="margin-right:5px;font-size:9px;"></i>Confirmar Senha</label>
+        <div class="fi-wrap">
+          <i class="fas fa-lock ic"></i>
+          <input type="password" id="setupConf" autocomplete="new-password" placeholder="Repita a senha">
+          <button class="toggle-btn" type="button" onclick="toggleVer('setupConf',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+
+      <div class="divider-label"><span>Acesso Secreto</span></div>
+
+      <div class="field">
+        <label><i class="fas fa-key" style="margin-right:5px;font-size:9px;"></i>Palavra-chave Secreta</label>
+        <div class="fi-wrap">
+          <i class="fas fa-key ic"></i>
+          <input type="text" id="setupPalavra" autocomplete="off" placeholder="Ex: escritoriosilva2026">
+          <button class="toggle-btn" type="button" onclick="toggleVer('setupPalavra',this)"><i class="fas fa-eye"></i></button>
+        </div>
+        <p style="font-size:11px;opacity:0.40;margin-top:8px;font-weight:300;line-height:1.6;">
+          Esta palavra será digitada na busca da página inicial. Evite palavras óbvias como "admin".
+        </p>
+      </div>
+
+      <div class="msg-box" id="setupMsg"><i class="fas fa-circle-xmark"></i><span id="setupMsgText"></span></div>
+
+      <button class="btn-primary" id="btnSetup" onclick="salvarPrimeiroAcesso()">
+        <i class="fas fa-floppy-disk" style="margin-right:8px;opacity:0.80;"></i>Salvar Configuração Inicial
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ════ VIEW: Login Normal ════ -->
+  <div class="view card" id="viewLogin">
+    <div class="card-accent-bar"></div>
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="card-inner">
+
+      <p class="sec-label">Autenticação</p>
+      <h2 class="sec-title">Entrar no Painel</h2>
+      <p class="sec-sub">Informe suas credenciais de administrador</p>
+      <div class="card-divider"></div>
+
+      <div class="field">
+        <label><i class="fas fa-user-tie" style="margin-right:5px;font-size:9px;"></i>E-mail Administrativo</label>
+        <div class="fi-wrap">
+          <i class="fas fa-at ic"></i>
+          <input type="email" id="adminUser" autocomplete="email" placeholder="seu@email.com">
+        </div>
+      </div>
+
+      <div class="field">
+        <label><i class="fas fa-lock" style="margin-right:5px;font-size:9px;"></i>Senha</label>
+        <div class="fi-wrap">
+          <i class="fas fa-lock ic"></i>
+          <input type="password" id="adminPass" autocomplete="current-password" placeholder="Sua senha"
+            onkeydown="if(event.key==='Enter') realizarLoginAdmin()">
+          <button class="toggle-btn" type="button" onclick="toggleVer('adminPass',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+
+      <div class="msg-box" id="loginMsg"><i class="fas fa-circle-xmark"></i><span id="loginMsgText"></span></div>
+
+      <button class="btn-primary" id="btnLogin" onclick="realizarLoginAdmin()">
+        <i class="fas fa-right-to-bracket" style="margin-right:8px;opacity:0.80;"></i>Acessar Painel
+      </button>
+
+      <!-- ── Link Central ── -->
+      <div class="link-central">
+        <p class="sec-label"><i class="fas fa-link" style="margin-right:5px;"></i>Link para enviar aos clientes</p>
+        <div class="link-url" id="linkUrl">https://site-advogado.github.io/index.html</div>
+        <div class="link-actions">
+          <button class="btn-link" id="btnCopiar" onclick="copiarLink()">
+            <i class="fas fa-copy"></i> Copiar Link
+          </button>
+          <button class="btn-link" onclick="togglePreviewWapp()">
+            <i class="fab fa-whatsapp"></i> Preview WhatsApp
+          </button>
+          <button class="btn-link" onclick="abrirWhatsApp()">
+            <i class="fab fa-whatsapp"></i> Abrir WhatsApp
+          </button>
+        </div>
+        <div id="wappPreview" style="display:none;margin-top:10px;padding:12px;background:rgba(37,211,102,0.07);border:1px solid rgba(37,211,102,0.22);border-radius:8px;font-size:12px;color:var(--text-primary);white-space:pre-wrap;line-height:1.6;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════ VIEW: Sucesso Setup ════ -->
+  <div class="view card" id="viewSucesso">
+    <div class="card-accent-bar"></div>
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="card-inner" style="text-align:center;padding-top:36px;padding-bottom:36px;">
+      <div class="success-icon" style="margin:0 auto 20px;">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2 style="font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--text-primary);margin-bottom:8px;">
+        Configuração Salva
+      </h2>
+      <div style="width:40px;height:2px;background:rgba(46,109,164,0.40);margin:12px auto 20px;"></div>
+      <p style="font-size:0.875rem;font-weight:300;color:var(--text-primary);opacity:0.55;line-height:1.75;margin-bottom:8px;">
+        Credenciais salvas com segurança. Nenhum dado sensível foi exposto.
+      </p>
+      <p style="font-size:0.875rem;font-weight:300;color:var(--text-primary);opacity:0.55;line-height:1.75;margin-bottom:28px;">
+        Agora faça login para acessar o painel administrativo.
+      </p>
+      <button class="btn-primary" onclick="mostrarLogin()">
+        <i class="fas fa-right-to-bracket" style="margin-right:8px;opacity:0.80;"></i>Ir para o Login
+      </button>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:10px;letter-spacing:0.20em;text-transform:uppercase;opacity:0.25;margin-top:32px;font-weight:600;">
+    Sistema Confidencial &mdash; Acesso Restrito
+  </p>
+
+</main>
+
+<!-- ── Theme script ── -->
+<script>
+(function(){
+  var key = 'ADV_GLOBAL_THEME';
+  var apply = function(t){
+    document.documentElement.classList.toggle('dark', t === 'dark');
+    document.documentElement.classList.toggle('light', t !== 'dark');
+    var icon = document.getElementById('themeIcon');
+    if (icon) icon.className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  };
+  apply(localStorage.getItem(key) || 'light');
+  window.toggleDarkMode = function(){
+    var isDark = document.documentElement.classList.contains('dark');
+    var next = isDark ? 'light' : 'dark';
+    apply(next);
+    localStorage.setItem(key, next);
+  };
+})();
+</script>
+
+<script src="tema.js"></script>
+<script>
+// URL_API, URL_BASE vêm de tema.js — fallbacks de segurança abaixo
+if (typeof URL_API  === 'undefined') window.URL_API  = 'https://api-advogada.siterefrigeracaoeliezer.workers.dev/api/v1';
+if (typeof URL_BASE === 'undefined') window.URL_BASE = 'https://api-advogada.siterefrigeracaoeliezer.workers.dev';
+const SITE_URL = 'https://site-advogado.github.io/index.html';
+
+let _nomeAdv    = '';
+let _msgWapp    = '';
+let _previewVis = false;
+
+// ── Loading ───────────────────────────────────────────────
+function showLoading(){ document.getElementById('globalLoader').classList.add('show'); }
+function hideLoading(){ document.getElementById('globalLoader').classList.remove('show'); }
+
+// ── Views ─────────────────────────────────────────────────
+function mostrarView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function mostrarLogin(){ mostrarView('viewLogin'); }
+
+// ── Helpers ────────────────────────────────────────────────
+function toggleVer(id, btn){
+  const inp=document.getElementById(id);
+  inp.type=inp.type==='password'?'text':'password';
+  btn.querySelector('i').className=inp.type==='text'?'fas fa-eye-slash':'fas fa-eye';
+}
+
+function showMsg(id, txtId, txt, tipo){
+  const box=document.getElementById(id);
+  box.className='msg-box show '+tipo;
+  box.querySelector('i').className=tipo==='error'?'fas fa-circle-xmark':'fas fa-circle-check';
+  document.getElementById(txtId).textContent=txt;
+}
+function hideMsg(id){ document.getElementById(id).className='msg-box'; }
+
+function avaliarForca(v){
+  const fill=document.getElementById('strFill'),lbl=document.getElementById('strLabel');
+  if(!v){fill.style.width='0';lbl.textContent='';return;}
+  let s=0;
+  if(v.length>=8)s++;if(v.length>=12)s++;
+  if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
+  const lv=[{w:'20%',c:'#C04A3A',t:'Muito fraca'},{w:'40%',c:'#C07830',t:'Fraca'},{w:'60%',c:'#B89830',t:'Média'},{w:'80%',c:'#2E6DA4',t:'Forte'},{w:'100%',c:'#2E6DA4',t:'Muito forte'}];
+  const l=lv[Math.min(s,4)];
+  fill.style.width=l.w;fill.style.background=l.c;lbl.textContent=l.t;lbl.style.color=l.c;
+}
+
+// ── Detectar estado ────────────────────────────────────────
+async function detectarEstado(){
+  showLoading();
+  try{
+    const res=await fetch(URL_BASE+'/api/verificar-setup',{method:'GET',credentials:'include'});
+    const data=await res.json();
+    if(data.primeiro_acesso){
+      mostrarView('viewSetup');
+      document.getElementById('headerSub').textContent='Configure o acesso pela primeira vez';
+    } else {
+      mostrarView('viewLogin');
+      document.getElementById('headerSub').textContent='Acesso restrito ao titular do escritório';
+      document.getElementById('linkUrl').textContent=SITE_URL;
+      fetch(URL_API,{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'bio'})})
+        .then(r=>r.json())
+        .then(d=>{
+          _nomeAdv=d.name||'';
+          _msgWapp=d.msg_whatsapp||'Olá! {NOME_ADV} disponibiliza um portal seguro para acompanhar seu processo jurídico. Acesse: {LINK}';
+
+        }).catch(()=>{});
+    }
+  } catch {
+    mostrarView('viewLogin');
+  } finally {
+    hideLoading();
+  }
+}
+
+// ── Setup ──────────────────────────────────────────────────
+async function salvarPrimeiroAcesso(){
+  hideMsg('setupMsg');
+  const email   = document.getElementById('setupEmail').value.trim().toLowerCase();
+  const senha   = document.getElementById('setupSenha').value;
+  const conf    = document.getElementById('setupConf').value;
+  const palavra = document.getElementById('setupPalavra').value.trim().toLowerCase();
+
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return showMsg('setupMsg','setupMsgText','E-mail inválido.','error');
+  if(senha.length<8)
+    return showMsg('setupMsg','setupMsgText','A senha deve ter pelo menos 8 caracteres.','error');
+  if(senha!==conf)
+    return showMsg('setupMsg','setupMsgText','As senhas não coincidem.','error');
+  if(palavra.length<4)
+    return showMsg('setupMsg','setupMsgText','Palavra-chave deve ter pelo menos 4 caracteres.','error');
+  if(['admin','senha','1234','acesso'].includes(palavra))
+    return showMsg('setupMsg','setupMsgText','Escolha uma palavra-chave mais exclusiva.','error');
+
+  const btn=document.getElementById('btnSetup');
+  btn.disabled=true; showLoading();
+
+  try{
+    const res=await fetch(URL_BASE+'/api/setup-admin',{
+      method:'POST',credentials:'include',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email,senha,palavra_secreta:palavra}),
+    });
+    const data=await res.json();
+    if(data.status==='ok'){
+      mostrarView('viewSucesso');
+    } else {
+      showMsg('setupMsg','setupMsgText',data.message||'Erro ao salvar.','error');
+      btn.disabled=false;
+    }
+  } catch {
+    showMsg('setupMsg','setupMsgText','Erro de conexão com o servidor.','error');
+    btn.disabled=false;
+  } finally {
+    hideLoading();
+  }
+}
+
+// ── Login admin ────────────────────────────────────────────
+async function realizarLoginAdmin(){
+  hideMsg('loginMsg');
+  const user=document.getElementById('adminUser').value.trim().toLowerCase();
+  const pass=document.getElementById('adminPass').value;
+  if(!user) return showMsg('loginMsg','loginMsgText','Preencha o e-mail.','error');
+  if(!pass) return showMsg('loginMsg','loginMsgText','Preencha a senha.','error');
+
+  const btn=document.getElementById('btnLogin');
+  btn.disabled=true; showLoading();
+
+  try{
+    const res=await fetch(URL_API,{
+      method:'POST',credentials:'include',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'login_admin',usuario:user,senha:pass}),
+    });
+    const data=await res.json();
+    if(data.status==='sucesso'){
+      window.location.href='configuracao.html';
+    } else {
+      showMsg('loginMsg','loginMsgText',data.message||'Credenciais inválidas.','error');
+      btn.disabled=false;
+    }
+  } catch {
+    showMsg('loginMsg','loginMsgText','Erro de conexão.','error');
+    btn.disabled=false;
+  } finally {
+    hideLoading();
+  }
+}
+
+// ── Central de Links ───────────────────────────────────────
+function copiarLink(){
+  const url=document.getElementById('linkUrl').textContent.trim();
+  navigator.clipboard.writeText(url)
+    .then(()=>{
+      const btn=document.getElementById('btnCopiar');
+      btn.classList.add('copiado');
+      btn.innerHTML='<i class="fas fa-check"></i> Copiado!';
+      setTimeout(()=>{btn.classList.remove('copiado');btn.innerHTML='<i class="fas fa-copy"></i> Copiar Link';},2500);
+    })
+    .catch(()=>{
+      const ta=document.createElement('textarea');
+      ta.value=url;ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+      const btn=document.getElementById('btnCopiar');
+      btn.innerHTML='<i class="fas fa-check"></i> Copiado!';
+      setTimeout(()=>{btn.innerHTML='<i class="fas fa-copy"></i> Copiar Link';},2500);
+    });
+}
+
+function _getMensagemWapp(){
+  const url  = document.getElementById('linkUrl').textContent.trim();
+  const nome = _nomeAdv||'Escritório de Advocacia';
+  const msg  = (_msgWapp||'Olá! {NOME_ADV} disponibiliza um portal seguro para acompanhar seu processo jurídico. Acesse: {LINK}')
+    .replace('{NOME_ADV}', nome).replace('{LINK}', url);
+  return msg;
+}
+
+function togglePreviewWapp(){
+  const preview=document.getElementById('wappPreview');
+  _previewVis=!_previewVis;
+  if(_previewVis){ preview.textContent=_getMensagemWapp(); preview.style.display='block'; }
+  else { preview.style.display='none'; }
+}
+
+function abrirWhatsApp(){
+  const msg=encodeURIComponent(_getMensagemWapp());
+  window.open(`https://wa.me/?text=${msg}`,'_blank');
+}
+
+// ── Init ───────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', detectarEstado);
+</script>
+</body>
+</html>
