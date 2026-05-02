@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="light">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' https://blogger.googleusercontent.com data:; connect-src 'self' https://*.workers.dev;">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Advocacia">
+    <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHtE2js3Aj9ZLxGzW-qg0iuRkcQvHrLMREwdxYyxwFQZ9IoEp_lYYjezzImcmSIoIPT0GDbAKn0HgZY757h6ob0P-RArslGJ8ca8R395S1oruz8a0R_BXc9OMWQwpqodGTFwq3rNdhshjmU9GgIvaBNAr7JmvgrH6GpbbxqgPXHy_42z9P43RM4frkdlc/w494-h494/logo.png">
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHtE2js3Aj9ZLxGzW-qg0iuRkcQvHrLMREwdxYyxwFQZ9IoEp_lYYjezzImcmSIoIPT0GDbAKn0HgZY757h6ob0P-RArslGJ8ca8R395S1oruz8a0R_BXc9OMWQwpqodGTFwq3rNdhshjmU9GgIvaBNAr7JmvgrH6GpbbxqgPXHy_42z9P43RM4frkdlc/w494-h494/logo.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | Gestão Processual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    navy:      '#0A1628',
+                    navyMid:   '#111E35',
+                    navyLight: '#1C2D4A',
+                    steel:     '#2E6DA4',
+                    steelLight:'#4A8DC4',
+                    steelDim:  '#1A4A72',
+                    iceWhite:  '#E8EDF4',
+                    silverFog: '#9AADC4',
+                    gunmetal:  '#2C3344',
+                },
+                fontFamily: {
+                    serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+                    sans:  ['Inter', 'sans-serif'],
+                }
+            }
+        }
+    }
+
+    if (localStorage.getItem('ADV_GLOBAL_THEME') === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+    } else {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+    }
+    </script>
+
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        input, select, textarea {
+            -webkit-user-select: text !important;
+            user-select: text !important;
+        }
+        img {
+            pointer-events: none !important;
+            -webkit-user-drag: none !important;
+        }
+
+        /* ── Typography ── */
+        .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+        .font-sans  { font-family: 'Inter', sans-serif; }
+
+        /* ── Geometric Background Pattern ── */
+        .bg-pattern {
+            background-color: #F0F4F8;
+            background-image:
+                linear-gradient(rgba(46,109,164,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(46,109,164,0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+        .dark .bg-pattern {
+            background-color: #0A1628;
+            background-image:
+                linear-gradient(rgba(46,109,164,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(46,109,164,0.08) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        /* ── Header ── */
+        .header-bar {
+            background: rgba(240, 244, 248, 0.88);
+            border-bottom: 1px solid rgba(46,109,164,0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .header-bar {
+            background: rgba(10, 22, 40, 0.92);
+            border-bottom: 1px solid rgba(46,109,164,0.25);
+        }
+
+        /* ── Steel Gradient Button ── */
+        .steel-gradient {
+            background: linear-gradient(135deg, #2E6DA4 0%, #1A4A72 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .steel-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            transition: left 0.5s ease;
+        }
+        .steel-gradient:hover::before { left: 100%; }
+        .steel-gradient:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(46,109,164,0.35);
+        }
+        .steel-gradient:active { transform: translateY(0px); }
+        .steel-gradient:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── Outline Button ── */
+        .steel-outline {
+            background: transparent;
+            border: 1px solid rgba(46,109,164,0.35);
+            color: #2E6DA4;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+        .dark .steel-outline { color: #4A8DC4; border-color: rgba(74,141,196,0.35); }
+        .steel-outline:hover {
+            background: rgba(46,109,164,0.08);
+            border-color: rgba(46,109,164,0.55);
+            transform: translateY(-1px);
+        }
+
+        /* ── Card ── */
+        .card {
+            background: #FFFFFF;
+            border: 1px solid rgba(46,109,164,0.12);
+            box-shadow: 0 2px 20px rgba(10,22,40,0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        .dark .card {
+            background: #111E35;
+            border: 1px solid rgba(46,109,164,0.20);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+        }
+
+        /* ── Input Underline ── */
+        .input-line {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(46,109,164,0.25);
+            padding: 10px 0 10px 28px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: #0A1628;
+            transition: border-color 0.25s ease;
+        }
+        .input-line::placeholder { color: rgba(10,22,40,0.35); }
+        .input-line:focus { border-bottom-color: #2E6DA4; }
+        .dark .input-line { color: #E8EDF4; }
+        .dark .input-line::placeholder { color: rgba(232,237,244,0.35); }
+        .dark .input-line:focus { border-bottom-color: #4A8DC4; }
+
+        .input-line-pr {
+            padding-right: 36px;
+        }
+
+        /* Input wrapper for icon */
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(46,109,164,0.55);
+            font-size: 13px;
+            pointer-events: none;
+        }
+        .dark .input-icon { color: rgba(74,141,196,0.6); }
+        .toggle-pass-btn {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(46,109,164,0.45);
+            font-size: 13px;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .toggle-pass-btn:hover { color: #2E6DA4; }
+        .dark .toggle-pass-btn { color: rgba(74,141,196,0.45); }
+        .dark .toggle-pass-btn:hover { color: #4A8DC4; }
+
+        /* ── Info Banner ── */
+        .info-banner {
+            background: rgba(46,109,164,0.06);
+            border: 1px solid rgba(46,109,164,0.18);
+            border-left: 3px solid rgba(46,109,164,0.55);
+            border-radius: 4px;
+        }
+        .dark .info-banner {
+            background: rgba(46,109,164,0.10);
+            border-color: rgba(74,141,196,0.20);
+            border-left-color: rgba(74,141,196,0.55);
+        }
+
+        /* ── Info Box ── */
+        .info-box {
+            background: rgba(46,109,164,0.04);
+            border: 1px solid rgba(46,109,164,0.12);
+            border-radius: 8px;
+        }
+        .dark .info-box {
+            background: rgba(46,109,164,0.08);
+            border-color: rgba(74,141,196,0.15);
+        }
+        .info-row-item {
+            border-bottom: 1px solid rgba(46,109,164,0.08);
+        }
+        .info-row-item:last-child { border-bottom: none; }
+        .dark .info-row-item { border-bottom-color: rgba(74,141,196,0.10); }
+
+        /* ── Loader ── */
+        .loader {
+            border: 3px solid rgba(46,109,164,0.15);
+            border-top: 3px solid #2E6DA4;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ── Decorative corners ── */
+        .corner-tl {
+            position: absolute;
+            top: 16px; left: 16px;
+            width: 22px; height: 22px;
+            border-top: 2px solid rgba(46,109,164,0.35);
+            border-left: 2px solid rgba(46,109,164,0.35);
+        }
+        .corner-br {
+            position: absolute;
+            bottom: 16px; right: 16px;
+            width: 22px; height: 22px;
+            border-bottom: 2px solid rgba(46,109,164,0.35);
+            border-right: 2px solid rgba(46,109,164,0.35);
+        }
+
+        /* ── Divider with label ── */
+        .divider-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .divider-label::before,
+        .divider-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(46,109,164,0.18);
+        }
+        .dark .divider-label::before,
+        .dark .divider-label::after {
+            background: rgba(74,141,196,0.18);
+        }
+
+        /* ── Section label ── */
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #2E6DA4;
+            opacity: 0.75;
+        }
+        .dark .section-label { color: #4A8DC4; }
+
+        /* ── Strength meter ── */
+        .strength-bar-bg {
+            height: 3px;
+            background: rgba(46,109,164,0.12);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .strength-fill {
+            height: 100%;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.35s ease, background 0.35s ease;
+        }
+
+        /* ── Message Box ── */
+        .msg-box {
+            display: none;
+            border-radius: 8px;
+            padding: 11px 14px;
+            font-size: 12.5px;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .msg-box.show { display: flex; }
+        .msg-box.error {
+            background: rgba(192,74,58,0.08);
+            color: #C04A3A;
+            border: 1px solid rgba(192,74,58,0.22);
+        }
+        .dark .msg-box.error {
+            background: rgba(192,74,58,0.12);
+            color: #E07060;
+            border-color: rgba(192,74,58,0.28);
+        }
+        .msg-box.success {
+            background: rgba(46,109,164,0.08);
+            color: #2E6DA4;
+            border: 1px solid rgba(46,109,164,0.22);
+        }
+        .dark .msg-box.success {
+            background: rgba(74,141,196,0.12);
+            color: #4A8DC4;
+            border-color: rgba(74,141,196,0.28);
+        }
+
+        /* ── Views ── */
+        .view { display: none; }
+        .view.active { display: block; }
+
+        /* ── Logo mark ── */
+        .logo-diamond {
+            width: 20px; height: 20px;
+            border: 2px solid rgba(46,109,164,0.50);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-diamond-inner {
+            width: 6px; height: 6px;
+            background: #2E6DA4;
+        }
+
+        /* ── Success icon ── */
+        .success-icon {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(46,109,164,0.08);
+            border: 1px solid rgba(46,109,164,0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dark .success-icon {
+            background: rgba(46,109,164,0.15);
+            border-color: rgba(74,141,196,0.30);
+        }
+
+        /* ── Page animation ── */
+        .fade-up {
+            animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── OAB badge style ── */
+        .admin-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(46,109,164,0.08);
+            border: 1px solid rgba(46,109,164,0.22);
+            border-radius: 4px;
+            padding: 4px 14px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            color: #2E6DA4;
+            text-transform: uppercase;
+        }
+        .dark .admin-badge {
+            background: rgba(46,109,164,0.14);
+            border-color: rgba(74,141,196,0.28);
+            color: #4A8DC4;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(46,109,164,0.25); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(46,109,164,0.45); }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+
+<body class="bg-pattern text-navy dark:text-iceWhite min-h-screen font-sans transition-colors duration-300">
+
+<!-- ── Global Loader ── -->
+<div id="globalLoader" class="fixed inset-0 z-[200] hidden items-center justify-center bg-navy/30 backdrop-blur-sm">
+    <div class="bg-white dark:bg-navyMid p-8 rounded-2xl shadow-2xl flex flex-col items-center border border-steel/20">
+        <div class="loader mb-4"></div>
+        <p class="text-steel dark:text-steelLight font-semibold text-xs tracking-[0.2em] uppercase">Verificando...</p>
+    </div>
+</div>
+
+<!-- ── Header ── -->
+<header class="header-bar fixed top-0 w-full z-50 px-5 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-2 opacity-80">
+        <div class="logo-diamond flex items-center justify-center">
+            <div class="logo-diamond-inner"></div>
+        </div>
+        <span class="text-[10px] font-semibold tracking-[0.22em] uppercase text-steel/70 hidden sm:block">Gestão Processual</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+        <a href="index.html"
+           class="flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.14em] uppercase
+                  text-steel/60 dark:text-steelLight/60 hover:text-steel dark:hover:text-steelLight
+                  transition-colors border border-steel/15 dark:border-steelLight/15 hover:border-steel/35
+                  px-3 py-1.5 rounded-lg">
+            <i class="fas fa-arrow-left text-[9px]"></i>
+            <span class="hidden sm:inline">Início</span>
+        </a>
+        <button onclick="toggleDarkMode()"
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-steel/20 hover:bg-steel/10 transition-all">
+            <i id="themeIcon" class="fas fa-moon text-steel dark:text-steelLight text-sm"></i>
+        </button>
+    </div>
+</header>
+
+<!-- ── Main ── -->
+<main class="pt-24 pb-16 px-4 max-w-md mx-auto fade-up">
+
+    <!-- ── Page Header ── -->
+    <section class="text-center mb-8">
+
+        <!-- Top thin rule -->
+        <div class="flex items-center gap-3 mb-7 opacity-35">
+            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-steel to-transparent"></div>
+            <div class="w-1.5 h-1.5 bg-steel rotate-45"></div>
+            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-steel to-transparent"></div>
+        </div>
+
+        <!-- Icon emblem -->
+        <div class="relative inline-flex items-center justify-center w-16 h-16 mb-5">
+            <!-- Outer ring -->
+            <div class="absolute inset-0 border border-steel/25 rounded-xl rotate-6"></div>
+            <div class="absolute inset-0 border border-steel/15 rounded-xl -rotate-6"></div>
+            <!-- Inner bg -->
+            <div class="relative w-full h-full rounded-xl flex items-center justify-center"
+                 style="background: rgba(46,109,164,0.08);">
+                <i class="fas fa-scale-balanced text-steel dark:text-steelLight text-2xl"></i>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="font-serif text-3xl font-bold tracking-widest text-navy dark:text-iceWhite mb-2 uppercase"
+            style="font-size: clamp(1.6rem, 5vw, 2.2rem); line-height: 1.15;">
+            Painel Administrativo
+        </h1>
+
+        <!-- Admin badge -->
+        <div class="flex justify-center mb-3">
+            <span class="admin-badge">
+                <i class="fas fa-shield-halved text-[9px]"></i>
+                Acesso Restrito
+            </span>
+        </div>
+
+        <!-- Subtitle -->
+        <p id="headerSub" class="text-sm opacity-50 font-light tracking-wide">
+            Acesso restrito ao titular do escritório
+        </p>
+
+        <!-- Bottom rule -->
+        <div class="flex items-center gap-3 mt-6 opacity-25">
+            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-steel to-transparent"></div>
+            <i class="fas fa-gavel text-steel text-xs"></i>
+            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-steel to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════
+         VIEW: Primeiro Acesso
+    ════════════════════════════════ -->
+    <div class="view active card rounded-2xl relative overflow-hidden" id="viewSetup">
+        <div class="corner-tl"></div>
+        <div class="corner-br"></div>
+
+        <div class="p-7 sm:p-8">
+
+            <!-- Section header -->
+            <div class="mb-6">
+                <p class="section-label mb-1">Configuração inicial</p>
+                <h2 class="font-serif text-2xl font-semibold text-navy dark:text-iceWhite tracking-wide">
+                    Primeiro Acesso
+                </h2>
+            </div>
+
+            <!-- Accent bar -->
+            <div class="w-10 h-0.5 bg-steel/40 mb-6"></div>
+
+            <!-- Info banner -->
+            <div class="info-banner rounded-lg p-4 mb-6 flex gap-3 items-start">
+                <i class="fas fa-circle-info text-steel dark:text-steelLight text-sm mt-0.5 flex-shrink-0"></i>
+                <div>
+                    <p class="text-xs font-semibold text-steel dark:text-steelLight tracking-wide mb-1">
+                        Nenhuma configuração encontrada
+                    </p>
+                    <p class="text-xs opacity-60 leading-relaxed font-light">
+                        Configure agora seu e-mail, senha e a <em>palavra-chave de acesso</em> antes de começar a utilizar o sistema.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Info box: what each field does -->
+            <div class="info-box p-4 mb-7">
+                <p class="section-label mb-3">O que cada campo faz</p>
+
+                <div class="info-row-item py-2.5 flex gap-3 items-start">
+                    <i class="fas fa-envelope text-steel dark:text-steelLight text-xs mt-0.5 w-3.5 flex-shrink-0"></i>
+                    <p class="text-xs opacity-60 leading-relaxed font-light">
+                        <span class="font-semibold opacity-90 text-navy dark:text-iceWhite">E-mail administrativo</span> —
+                        é o usuário que você digitará para entrar no painel. Preferencialmente não deve coincidir com o e-mail público do advogado.
+                    </p>
+                </div>
+
+                <div class="info-row-item py-2.5 flex gap-3 items-start">
+                    <i class="fas fa-lock text-steel dark:text-steelLight text-xs mt-0.5 w-3.5 flex-shrink-0"></i>
+                    <p class="text-xs opacity-60 leading-relaxed font-light">
+                        <span class="font-semibold opacity-90 text-navy dark:text-iceWhite">Senha de acesso</span> —
+                        usada junto com o e-mail para autenticar no painel. Escolha algo forte e anote em local seguro.
+                    </p>
+                </div>
+
+                <div class="py-2.5 flex gap-3 items-start">
+                    <i class="fas fa-key text-steel dark:text-steelLight text-xs mt-0.5 w-3.5 flex-shrink-0"></i>
+                    <p class="text-xs opacity-60 leading-relaxed font-light">
+                        <span class="font-semibold opacity-90 text-navy dark:text-iceWhite">Palavra-chave secreta</span> —
+                        digitada na busca da página inicial, abre silenciosamente este painel. Não precisa ser forte, mas deve ser única e discreta (ex: <em class="text-steel/70 dark:text-steelLight/70">escritorio2026</em>).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="space-y-6">
+
+                <!-- E-mail -->
+                <div>
+                    <label class="section-label block mb-2">
+                        <i class="fas fa-envelope mr-1.5 text-[9px]"></i>E-mail Administrativo
+                    </label>
+                    <div class="input-wrap">
+                        <i class="input-icon fas fa-at"></i>
+                        <input type="email" id="setupEmail"
+                               autocomplete="email"
+                               placeholder="seu@email.com.br"
+                               class="input-line input-line-pr">
+                    </div>
+                </div>
+
+                <!-- Senha -->
+                <div>
+                    <label class="section-label block mb-2">
+                        <i class="fas fa-lock mr-1.5 text-[9px]"></i>Senha de Acesso
+                    </label>
+                    <div class="input-wrap">
+                        <i class="input-icon fas fa-lock"></i>
+                        <input type="password" id="setupSenha"
+                               autocomplete="new-password"
+                               placeholder="Mínimo 8 caracteres"
+                               oninput="avaliarForca(this.value)"
+                               class="input-line input-line-pr">
+                        <button class="toggle-pass-btn" type="button"
+                                onclick="toggleVer('setupSenha', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <!-- Strength meter -->
+                    <div class="mt-2.5 space-y-1">
+                        <div class="strength-bar-bg">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <p class="text-[11px] font-light" id="strengthLabel" style="color: rgba(46,109,164,0.5);"></p>
+                    </div>
+                </div>
+
+                <!-- Confirmar senha -->
+                <div>
+                    <label class="section-label block mb-2">
+                        <i class="fas fa-lock mr-1.5 text-[9px]"></i>Confirmar Senha
+                    </label>
+                    <div class="input-wrap">
+                        <i class="input-icon fas fa-lock"></i>
+                        <input type="password" id="setupSenhaConf"
+                               autocomplete="new-password"
+                               placeholder="Repita a senha"
+                               class="input-line input-line-pr">
+                        <button class="toggle-pass-btn" type="button"
+                                onclick="toggleVer('setupSenhaConf', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="divider-label py-1">
+                    <span class="text-[10px] font-semibold tracking-[0.16em] uppercase text-steel/50 dark:text-steelLight/50 whitespace-nowrap px-1">
+                        Acesso Secreto
+                    </span>
+                </div>
+
+                <!-- Palavra-chave -->
+                <div>
+                    <label class="section-label block mb-2">
+                        <i class="fas fa-key mr-1.5 text-[9px]"></i>Palavra-chave Secreta
+                    </label>
+                    <div class="input-wrap">
+                        <i class="input-icon fas fa-key"></i>
+                        <input type="text" id="setupPalavra"
+                               autocomplete="off"
+                               placeholder="Ex: escritoriosilva2026"
+                               class="input-line input-line-pr">
+                        <button class="toggle-pass-btn" type="button"
+                                onclick="toggleVer('setupPalavra', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <p class="text-[11px] opacity-40 mt-2 font-light leading-relaxed">
+                        Esta palavra será digitada na busca da página inicial para abrir este painel. Evite palavras óbvias como "admin".
+                    </p>
+                </div>
+
+                <!-- Error message -->
+                <div class="msg-box" id="setupMsg">
+                    <i class="fas fa-circle-xmark flex-shrink-0"></i>
+                    <span id="setupMsgText"></span>
+                </div>
+
+                <!-- Submit button -->
+                <button onclick="salvarPrimeiroAcesso()" id="btnSetup"
+                        class="steel-gradient w-full text-white font-semibold py-4 rounded-xl
+                               shadow-lg text-xs tracking-[0.18em] uppercase transition-all mt-2">
+                    <i class="fas fa-floppy-disk mr-2 opacity-80"></i>
+                    Salvar Configuração Inicial
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════
+         VIEW: Login Normal
+    ════════════════════════════════ -->
+    <div class="view card rounded-2xl relative overflow-hidden" id="viewLogin">
+        <div class="corner-tl"></div>
+        <div class="corner-br"></div>
+
+        <div class="p-7 sm:p-8">
+
+            <!-- Section header -->
+            <div class="mb-6">
+                <p class="section-label mb-1">Autenticação</p>
+                <h2 class="font-serif text-2xl font-semibold text-navy dark:text-iceWhite tracking-wide">
+                    Entrar no Painel
+                </h2>
+                <p class="text-xs opacity-40 mt-1 font-light tracking-wide">Informe suas credenciais de administrador</p>
+            </div>
+
+            <div class="w-10 h-0.5 bg-steel/40 mb-7"></div>
+
+            <div class="space-y-7">
+
+                <!-- E-mail -->
+                <div>
+                    <label class="section-label block mb-2">
+                        <i class="fas fa-user-tie mr-1.5 text-[9px]"></i>E-mail Administrativo
+                    </label>
+                    <div class="input-wrap">
+                        <i class="input-icon fas fa-at"></i>
+                        <input type="email" id="adminUser"
+                               autocomplete="email"
+                               placeholder="seu@email.com.br"
+                               class="input-line input-line-pr">
+                    </div>
+                </div>
+
+                <!-- Senha -->
+                <div>
+                    <label class="section-label block mb-2">
+                        <i class="fas fa-lock mr-1.5 text-[9px]"></i>Senha
+                    </label>
+                    <div class="input-wrap">
+                        <i class="input-icon fas fa-lock"></i>
+                        <input type="password" id="adminPass"
+                               autocomplete="current-password"
+                               placeholder="Sua senha"
+                               onkeydown="if(event.key==='Enter') realizarLoginAdmin()"
+                               class="input-line input-line-pr">
+                        <button class="toggle-pass-btn" type="button"
+                                onclick="toggleVer('adminPass', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Error message -->
+                <div class="msg-box" id="loginMsg">
+                    <i class="fas fa-circle-xmark flex-shrink-0"></i>
+                    <span id="loginMsgText"></span>
+                </div>
+
+                <!-- Login button -->
+                <button onclick="realizarLoginAdmin()" id="btnLogin"
+                        class="steel-gradient w-full text-white font-semibold py-4 rounded-xl
+                               shadow-lg text-xs tracking-[0.18em] uppercase transition-all">
+                    <i class="fas fa-right-to-bracket mr-2 opacity-80"></i>
+                    Acessar Painel
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════
+         VIEW: Sucesso Setup
+    ════════════════════════════════ -->
+    <div class="view card rounded-2xl relative overflow-hidden text-center" id="viewSuccessSetup">
+        <div class="corner-tl"></div>
+        <div class="corner-br"></div>
+
+        <!-- Top accent gradient -->
+        <div class="h-1 w-full bg-gradient-to-r from-steelDim via-steel to-steelDim"></div>
+
+        <div class="p-10">
+            <!-- Success icon -->
+            <div class="success-icon mx-auto mb-6">
+                <i class="fas fa-check text-steel dark:text-steelLight text-xl"></i>
+            </div>
+
+            <h2 class="font-serif text-2xl font-semibold text-navy dark:text-iceWhite mb-2 tracking-wide">
+                Configuração Salva
+            </h2>
+            <div class="w-10 h-0.5 bg-steel/40 mx-auto my-4"></div>
+            <p class="text-sm opacity-55 leading-relaxed font-light mb-8 max-w-xs mx-auto">
+                Suas credenciais foram armazenadas com segurança. Agora você pode fazer login normalmente sempre que precisar acessar o painel administrativo.
+            </p>
+
+            <button onclick="irParaLogin()"
+                    class="steel-gradient w-full text-white font-semibold py-4 rounded-xl
+                           shadow-lg text-xs tracking-[0.18em] uppercase transition-all">
+                <i class="fas fa-right-to-bracket mr-2 opacity-80"></i>
+                Ir para o Login
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer label -->
+    <p class="text-center text-[10px] tracking-[0.2em] uppercase opacity-25 mt-8 font-semibold">
+        Sistema Confidencial &mdash; Acesso Restrito
+    </p>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     JavaScript
+══════════════════════════════════════════════════════════ -->
+<script>
+const URL_API = 'https://api-advogada.siterefrigeracaoeliezer.workers.dev';
+
+// ── Theme ──────────────────────────────────────────────────
+window.onload = () => {
+    const themeIcon = document.getElementById('themeIcon');
+    if (localStorage.getItem('ADV_GLOBAL_THEME') === 'dark') {
+        document.documentElement.classList.add('dark');
+        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+    } else {
+        document.documentElement.classList.remove('dark');
+        if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+};
+
+function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    const themeIcon = document.getElementById('themeIcon');
+    if (isDark) {
+        localStorage.setItem('ADV_GLOBAL_THEME', 'dark');
+        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+    } else {
+        localStorage.setItem('ADV_GLOBAL_THEME', 'light');
+        if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+}
+
+// ── Loading ────────────────────────────────────────────────
+function showLoading() { document.getElementById('globalLoader').classList.replace('hidden', 'flex'); }
+function hideLoading() { document.getElementById('globalLoader').classList.replace('flex', 'hidden'); }
+
+// ── Helpers ────────────────────────────────────────────────
+function showMsg(id, textId, text, type) {
+    const box  = document.getElementById(id);
+    const span = document.getElementById(textId);
+    box.className = 'msg-box show ' + type;
+    box.querySelector('i').className =
+        type === 'error' ? 'fas fa-circle-xmark flex-shrink-0'
+                         : 'fas fa-circle-check flex-shrink-0';
+    span.textContent = text;
+}
+function hideMsg(id) { document.getElementById(id).className = 'msg-box'; }
+
+function toggleVer(inputId, btn) {
+    const inp    = document.getElementById(inputId);
+    const isPass = inp.type === 'password';
+    inp.type = isPass ? 'text' : 'password';
+    btn.querySelector('i').className = isPass ? 'fas fa-eye-slash' : 'fas fa-eye';
+}
+
+// ── Password strength ──────────────────────────────────────
+function avaliarForca(v) {
+    const fill  = document.getElementById('strengthFill');
+    const label = document.getElementById('strengthLabel');
+    if (!v) { fill.style.width = '0%'; label.textContent = ''; return; }
+
+    let score = 0;
+    if (v.length >= 8)               score++;
+    if (v.length >= 12)              score++;
+    if (/[A-Z]/.test(v))             score++;
+    if (/[0-9]/.test(v))             score++;
+    if (/[^A-Za-z0-9]/.test(v))      score++;
+
+    const levels = [
+        { pct: '20%',  color: '#C04A3A', txt: 'Muito fraca'  },
+        { pct: '40%',  color: '#C07830', txt: 'Fraca'        },
+        { pct: '60%',  color: '#B89830', txt: 'Média'        },
+        { pct: '80%',  color: '#2E6DA4', txt: 'Forte'        },
+        { pct: '100%', color: '#2E6DA4', txt: 'Muito forte'  },
+    ];
+    const lv = levels[Math.min(score, 4)];
+    fill.style.width      = lv.pct;
+    fill.style.background = lv.color;
+    label.textContent     = lv.txt;
+    label.style.color     = lv.color;
+}
+
+// ── Views ──────────────────────────────────────────────────
+function showView(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+}
+function irParaLogin() { showView('viewLogin'); }
+
+// ── Detect first access ────────────────────────────────────
+async function detectarEstado() {
+    showLoading();
+    try {
+        const res  = await fetch(`${URL_API}/api/v1`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'verificar_setup' }),
+        });
+        const data = await res.json();
+
+        if (data.primeiro_acesso) {
+            showView('viewSetup');
+            document.getElementById('headerSub').textContent = 'Configure o acesso pela primeira vez';
+        } else {
+            showView('viewLogin');
+            document.getElementById('headerSub').textContent = 'Acesso restrito ao titular do escritório';
+        }
+    } catch {
+        showView('viewLogin');
+    } finally {
+        hideLoading();
+    }
+}
+
+// ── Save first access ──────────────────────────────────────
+async function salvarPrimeiroAcesso() {
+    const email   = document.getElementById('setupEmail').value.trim().toLowerCase();
+    const senha   = document.getElementById('setupSenha').value;
+    const conf    = document.getElementById('setupSenhaConf').value;
+    const palavra = document.getElementById('setupPalavra').value.trim().toLowerCase();
+
+    hideMsg('setupMsg');
+
+    if (!email)
+        return showMsg('setupMsg', 'setupMsgText', 'Informe o e-mail administrativo.', 'error');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        return showMsg('setupMsg', 'setupMsgText', 'E-mail inválido.', 'error');
+    if (senha.length < 8)
+        return showMsg('setupMsg', 'setupMsgText', 'A senha deve ter pelo menos 8 caracteres.', 'error');
+    if (senha !== conf)
+        return showMsg('setupMsg', 'setupMsgText', 'As senhas não coincidem.', 'error');
+    if (palavra.length < 4)
+        return showMsg('setupMsg', 'setupMsgText', 'A palavra-chave deve ter pelo menos 4 caracteres.', 'error');
+    if (['admin', 'senha', 'acesso'].includes(palavra))
+        return showMsg('setupMsg', 'setupMsgText', 'Escolha uma palavra-chave mais exclusiva.', 'error');
+
+    showLoading();
+    const btn = document.getElementById('btnSetup');
+    btn.disabled = true;
+
+    try {
+        const res  = await fetch(`${URL_API}/api/v1`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'primeiro_acesso',
+                email, senha, palavra_secreta: palavra,
+            }),
+        });
+        const data = await res.json();
+
+        if (data.status === 'ok') {
+            showView('viewSuccessSetup');
+        } else {
+            showMsg('setupMsg', 'setupMsgText', data.message || 'Erro ao salvar.', 'error');
+            btn.disabled = false;
+        }
+    } catch {
+        showMsg('setupMsg', 'setupMsgText', 'Erro de conexão com o servidor.', 'error');
+        btn.disabled = false;
+    } finally {
+        hideLoading();
+    }
+}
+
+// ── Admin login ────────────────────────────────────────────
+async function realizarLoginAdmin() {
+    const user = document.getElementById('adminUser')?.value.trim().toLowerCase();
+    const pass = document.getElementById('adminPass')?.value;
+    hideMsg('loginMsg');
+
+    if (!user) return showMsg('loginMsg', 'loginMsgText', 'Preencha o e-mail.', 'error');
+    if (!pass) return showMsg('loginMsg', 'loginMsgText', 'Preencha a senha.', 'error');
+
+    showLoading();
+    const btn = document.getElementById('btnLogin');
+    btn.disabled = true;
+
+    try {
+        const res  = await fetch(`${URL_API}/api/v1`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'login_admin', usuario: user, senha: pass }),
+        });
+        const data = await res.json();
+
+        if (data.status === 'sucesso') {
+            window.location.href = 'configuracao.html';
+        } else {
+            showMsg('loginMsg', 'loginMsgText', data.message || 'Acesso negado.', 'error');
+            btn.disabled = false;
+        }
+    } catch {
+        showMsg('loginMsg', 'loginMsgText', 'Erro de conexão.', 'error');
+        btn.disabled = false;
+    } finally {
+        hideLoading();
+    }
+}
+
+// ── Init ───────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', detectarEstado);
+</script>
+
+</body>
+</html>
