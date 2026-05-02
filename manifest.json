@@ -1,6 +1,6 @@
 {
   "name": "Portal Jurídico",
-  "short_name": "Portal",
+  "short_name": "Portal - Nome",
   "description": "Acompanhe seu processo jurídico de forma segura e privada.",
   "start_url": "/index.html",
   "display": "standalone",
